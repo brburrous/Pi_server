@@ -4,7 +4,7 @@ import time
 # ID the serial ports that appear the same
 
 
-def usb_id(name_list=['drive', 'head', 'payload', 'face'], usb_prefix="/dev/ttyACM", baud_rate=9600, timeout=1):
+def usb_id(name_list=["face"], usb_prefix="/dev/ttyACM", baud_rate=115200, timeout=1):
     # Set timeout while waiting for each port's response
     num_ports = len(name_list)
     ports = {}
@@ -25,9 +25,9 @@ def usb_id(name_list=['drive', 'head', 'payload', 'face'], usb_prefix="/dev/ttyA
             connections += 1
 
             # Opening serial port reboots Arduino, wait a bit before trying to talk
-            # time.sleep(2)
+            time.sleep(2)
 
-            # ser.write(b'i')
+            ser.write(b'i')
 
             handshake_done = False
             start = time.time()
@@ -44,6 +44,7 @@ def usb_id(name_list=['drive', 'head', 'payload', 'face'], usb_prefix="/dev/ttyA
                             ser.close()
                             print("USB{} is {}".format(j, n))
                             handshake_done = True
+                            break
                     if not handshake_done:
                         print("USB{} did not have a matching name".format(j))
                     break
@@ -92,19 +93,19 @@ def take_command(msg, ports, timeout=1):
         ports["payload"].write("<three>".encode('utf-8'))
     elif cmd == "payload_four":
         ports["payload"].write("<four>".encode('utf-8'))
-
+    print(arg)
     if cmd == "face_loading":
         ports["face"].write("<loading>".encode('utf-8'))
     elif cmd == "face_happy":
         ports["face"].write("<happy>".encode('utf-8'))
     elif cmd == "face_angry":
         ports["face"].write("<angry>".encode('utf-8'))
-    elif cmd == "suprise":
-        ports["face"].write("<suprise,{}>".format(arg).encode('utf-8'))
+    elif cmd == "face_surprise":
+        ports["face"].write("<surprise,{}>".format(arg).encode('utf-8'))
     elif cmd == "face_happy_emphasis":
         ports["face"].write("<happy_emphasis,{}>".format(arg).encode('utf-8'))
     elif cmd == "face_sad":
-        ports["face"].write("<sad,{}>".format(arg).encode('utf-8'))
+        ports["face"].write("<sad>".encode('utf-8'))
     elif cmd == "face_neutral":
         ports["face"].write("<neutral>".encode('utf-8'))
     elif cmd == "face_bounce":
@@ -121,9 +122,9 @@ def finish(ports):
 
 if __name__ == "__main__":
 
-    name_list = ["motor", "sensors"]
-    ports = usb_id(name_list=name_list, usb_prefix="/dev/ttyACM",
-                   baud_rate=9600, timeout=1)
+    # name_list = ["motor", "sensors"]
+    # ports = usb_id(name_list=name_list, usb_prefix="/dev/ttyACM",
+    #                baud_rate=9600, timeout=1)
 
     finished = False
     while not finished:
