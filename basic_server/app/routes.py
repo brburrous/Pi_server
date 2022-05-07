@@ -12,7 +12,7 @@ def index():
 
 @app.route('/move', methods=['POST'])
 def move():
-    print(request)
+    print(request.data)
     try:
         json = request.json
         direction = json["direction"]
