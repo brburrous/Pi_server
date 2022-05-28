@@ -4,7 +4,7 @@ import time
 # ID the serial ports that appear the same
 
 
-def usb_id(name_list=['face'], usb_prefix="/dev/ttyACM", baud_rate=115200, timeout=1):
+def usb_id(name_list=['face', 'payload'], usb_prefix="/dev/ttyACM", baud_rate=115200, timeout=1):
 
     # Set timeout while waiting for each port's response
     num_ports = len(name_list)
@@ -89,15 +89,15 @@ def take_command(msg, ports, timeout=1):
         ports["head"].write("<Stop Nodding>".encode('utf-8'))
     elif cmd == "head_left_stop" or cmd == "head_right_stop":
         ports["head"].write("<Stop Turning>".encode('utf-8'))
-
+    
     if cmd == "payload_one":
-        ports["payload"].write("<snack1>".encode('utf-8'))
+        ports["payload"].write("snack1".encode('utf-8'))
     elif cmd == "payload_two":
-        ports["payload"].write("<snack2>".encode('utf-8'))
+        ports["payload"].write("snack2".encode('utf-8'))
     elif cmd == "payload_three":
-        ports["payload"].write("<snack3>".encode('utf-8'))
+        ports["payload"].write("snack3".encode('utf-8'))
     elif cmd == "payload_four":
-        ports["payload"].write("<snack4>".encode('utf-8'))
+        ports["payload"].write("snack4".encode('utf-8'))
 
 
     if cmd == "face_loading":

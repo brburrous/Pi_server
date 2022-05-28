@@ -1,5 +1,6 @@
 from flask import render_template, request, jsonify
 from app import app, move
+
 ports = move.usb_id()
 
 @app.route('/')
@@ -10,7 +11,7 @@ def index():
 @app.route('/drive', methods=['POST'])
 def drive():
     try:
-        ports = move.usb_id()
+        # ports = move.usb_id()
         json = request.json
         direction = json["direction"]
         drive = json["drive"] 
@@ -27,7 +28,7 @@ def drive():
 @app.route('/head', methods=['POST'])
 def head():
     try:
-        ports = move.usb_id()
+        # ports = move.usb_id()
         json=request.json
         direction = json["direction"]
         move = json["move"]
@@ -42,7 +43,7 @@ def head():
 @app.route('/dispense', methods=['POST'])
 def dispense():
     try:
-        ports = move.usb_id()
+        # ports = move.usb_id()
         json=request.json
         bin=json["bin"]
         cmd = "payload_" + bin
@@ -54,7 +55,7 @@ def dispense():
 @app.route('/face', methods=['POST']) 
 def face():
     try:
-        
+        # ports = move.usb_id()
         json = request.json
         emotion = json["emotion"]
         duration = json["duration"]
