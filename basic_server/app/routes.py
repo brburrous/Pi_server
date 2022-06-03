@@ -34,12 +34,10 @@ def head():
         direction = json["direction"]
         move = json["move"]
         cmd = "head_" + direction
-        if move == 'TRUE':
-            move.take_command(cmd, ports)
-            return "Successfully moved bot's head", 200
-        else:
-            move.finish(ports)
-            return "Successfully stoped bot", 400
+        
+        move.take_command(cmd, ports)
+        return "Successfully moved bot's head", 200
+       
     except Exception as e:
         return f"An Error Occured {e}", 400
 

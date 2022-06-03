@@ -4,7 +4,7 @@ import time
 # ID the serial ports that appear the same
 
 
-def usb_id(name_list=['drive', 'head', 'payload', 'face'], usb_prefix="/dev/ttyACM", baud_rate=9600, timeout=1):
+def usb_id(name_list=['face'], usb_prefix="/dev/ttyACM", baud_rate=115200, timeout=1):
     # Set timeout while waiting for each port's response
     num_ports = len(name_list)
     ports = {}
@@ -25,9 +25,9 @@ def usb_id(name_list=['drive', 'head', 'payload', 'face'], usb_prefix="/dev/ttyA
             connections += 1
 
             # Opening serial port reboots Arduino, wait a bit before trying to talk
-            # time.sleep(2)
+            time.sleep(2)
 
-            # ser.write(b'i')
+            ser.write(b'i')
 
             handshake_done = False
             start = time.time()
@@ -76,22 +76,26 @@ def take_command(msg, ports, timeout=1):
         ports["drive"].write("<left>".encode('utf-8'))
 
     if cmd == "head_up":
-        ports["head"].write("<up>".encode('utf-8'))
+        ports["head"].write("<Nod Up>".encode('utf-8'))
     elif cmd == "head_down":
-        ports["head"].write("<down>".encode('utf-8'))
+        ports["head"].write("<Nod Down>".encode('utf-8'))
     elif cmd == "head_left":
-        ports["head"].write("<left>".encode('utf-8'))
+        ports["head"].write("<Turn Left>".encode('utf-8'))
     elif cmd == "head_right":
-        ports["head"].write("<right>".encode('utf-8'))
+        ports["head"].write("<Turn Right>".encode('utf-8'))
+    elif cmd == "head_up_stop" or cmd == "head_down_stop":
+        ports["head"].write("<Stop Nodding>".encode('utf-8'))
+    elif cmd == "head_left_stop" or cmd == "head_right_stop":
+        ports["head"].write("<Stop Turning>".encode('utf-8'))
 
     if cmd == "payload_one":
-        ports["payload"].write("<one>".encode('utf-8'))
+        ports["payload"].write("<snack1>".encode('utf-8'))
     elif cmd == "payload_two":
-        ports["payload"].write("<two>".encode('utf-8'))
+        ports["payload"].write("<snack2>".encode('utf-8'))
     elif cmd == "payload_three":
-        ports["payload"].write("<three>".encode('utf-8'))
+        ports["payload"].write("<snack3>".encode('utf-8'))
     elif cmd == "payload_four":
-        ports["payload"].write("<four>".encode('utf-8'))
+        ports["payload"].write("<snack4>".encode('utf-8'))
 
     if cmd == "face_loading":
         ports["face"].write("<loading>".encode('utf-8'))
